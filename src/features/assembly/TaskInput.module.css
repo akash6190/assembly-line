@@ -1,0 +1,9 @@
+.container {
+ padding: 1rem;
+ border-bottom: 1px solid #ccc; 
+}
+
+input {
+  padding: 0.5rem;
+  margin-left: 1rem;  
+}

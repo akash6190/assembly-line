@@ -18,11 +18,13 @@ export const Stage: React.FC<StageProps> = ({ name, index, totalCount }) => {
   console.log(index);
   const taskSelector = useCallback(selectTasksByStage(index), [index]);
   const tasks = useAppSelector(taskSelector);
-  const rightClick = (taskId: string) => {
+  const rightClick = (e: React.MouseEvent, taskId: string) => {
+    e.preventDefault();
     dispatch(moveToNextStage(taskId, totalCount));
   };
 
-  const leftClick = (taskId: string) => {
+  const leftClick = (e: React.MouseEvent, taskId: string) => {
+    e.preventDefault();
     dispatch(moveToPrevStage(taskId));
   };
 
@@ -32,8 +34,8 @@ export const Stage: React.FC<StageProps> = ({ name, index, totalCount }) => {
       <ul>
         {tasks.map((task) => (
           <li
-            onContextMenu={() => rightClick(task.id)}
-            onClick={() => leftClick(task.id)}
+            onContextMenu={(e) => rightClick(e, task.id)}
+            onClick={(e) => leftClick(e, task.id)}
             key={task.id}
           >
             {task.name}

@@ -1,5 +1,6 @@
 import { useAppDispatch } from "../../app/hooks";
 import { addTask } from "./assemblySlice";
+import styles from "./TaskInput.module.css";
 
 const generateId = () =>
   `${performance.now()}${Math.random().toString().slice(5)}`.replace(".", "");
@@ -21,8 +22,11 @@ export const TaskInput: React.FC = () => {
   };
 
   return (
-    <div className="input-container">
-      <input onKeyPress={onEnter} />
+    <div className={styles.container}>
+      <label>
+        Add an item:
+        <input onKeyPress={onEnter} />
+      </label>
     </div>
   );
 };

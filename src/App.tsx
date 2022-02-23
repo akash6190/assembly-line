@@ -4,7 +4,7 @@ import { AssemblyLine } from './features/assembly/AssemblyLine';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <AssemblyLine stages={['Idea', 'Development', 'Testing', 'Deployment']}/>  
     </div>
   );
