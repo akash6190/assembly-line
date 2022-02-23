@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import counterReducer from '../features/counter/counterSlice';
+import assemblyReducer, { ASSEMBLY_FEATURE_KEY } from '../features/assembly/assemblySlice';
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
+    [ASSEMBLY_FEATURE_KEY]: assemblyReducer,
   },
 });
 
