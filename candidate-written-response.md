@@ -1,0 +1,2 @@
+Finished the development of the assignment in the given time frame using cra redux template. This assignment tests the candidates knowledge on event and data flow. If there were no time constraints, I will focus my time and energy on adding CI/CD, better styling, and more unit tests. 
+***To run this code please follow the instructions in readme.md file.***
