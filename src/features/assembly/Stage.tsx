@@ -1,12 +1,11 @@
-import { useCallback } from "react";
+import { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   moveToNextStage,
   moveToPrevStage,
   selectTasksByStage,
 } from "./assemblySlice";
-
-import styles from './Stage.module.css';
+import styles from "./Stage.module.css";
 
 interface StageProps {
   name: string;
@@ -15,8 +14,7 @@ interface StageProps {
 }
 export const Stage: React.FC<StageProps> = ({ name, index, totalCount }) => {
   const dispatch = useAppDispatch();
-  console.log(index);
-  const taskSelector = useCallback(selectTasksByStage(index), [index]);
+  const taskSelector = useMemo(() => selectTasksByStage(index), [index]);
   const tasks = useAppSelector(taskSelector);
   const rightClick = (e: React.MouseEvent, taskId: string) => {
     e.preventDefault();

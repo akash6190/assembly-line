@@ -11,13 +11,18 @@ export interface Task {
   id: string;
   name: string;
   stage: number;
+  lastUpdated: number;
 }
+
+let lastUpdated = 0;
 
 export const ASSEMBLY_FEATURE_KEY = "environics/assembly";
 
 export interface AssemblyState extends EntityState<Task> {}
 
-const assemblyAdapter = createEntityAdapter<Task>();
+const assemblyAdapter = createEntityAdapter<Task>({
+  sortComparer: (a, b) => b.lastUpdated - a.lastUpdated,
+});
 
 const initialState = assemblyAdapter.getInitialState({});
 
@@ -26,21 +31,30 @@ export const assemblySlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    addNewTask: (state, action: PayloadAction<Task>) => {
-      assemblyAdapter.addOne(state, action.payload);
+    addNewTask: (state, action: PayloadAction<Omit<Task, "lastUpdated">>) => {
+      lastUpdated += 1;
+      assemblyAdapter.addOne(state, {
+        ...action.payload,
+        lastUpdated: lastUpdated,
+      });
     },
     removeTask: (state, action: PayloadAction<{ taskId: string }>) => {
       assemblyAdapter.removeOne(state, action.payload.taskId);
     },
     updateStage: (
       state,
-      action: PayloadAction<{ taskId: string; stage: number }>
+      action: PayloadAction<{
+        taskId: string;
+        stage: number;
+        updatedAt: number;
+      }>
     ) => {
       // move to previous
       assemblyAdapter.updateOne(state, {
         id: action.payload.taskId,
         changes: {
           stage: action.payload.stage,
+          lastUpdated: action.payload.updatedAt,
         },
       });
     },
@@ -76,10 +90,12 @@ export const moveToNextStage =
         })
       );
     } else {
+      lastUpdated += 1;
       dispatch(
         updateStage({
           stage: task.stage + 1,
           taskId,
+          updatedAt: lastUpdated,
         })
       );
     }
@@ -97,10 +113,12 @@ export const moveToPrevStage =
         })
       );
     } else {
+      lastUpdated += 1;
       dispatch(
         updateStage({
           stage: task.stage - 1,
           taskId,
+          updatedAt: -lastUpdated,
         })
       );
     }

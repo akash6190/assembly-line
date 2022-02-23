@@ -25,7 +25,7 @@ export const TaskInput: React.FC = () => {
     <div className={styles.container}>
       <label>
         Add an item:
-        <input onKeyPress={onEnter} />
+        <input onKeyDown={onEnter} placeholder="Enter a task" />
       </label>
     </div>
   );
